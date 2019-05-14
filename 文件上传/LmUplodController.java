@@ -21,7 +21,7 @@ public class LmUplodController {
 	
     //上传图片
     @RequestMapping(value = "/images", method = RequestMethod.POST)
-    public LmUpload uploadImages(@RequestParam("file") MultipartFile file) throws IOException {
+    public Map<String, Object> uploadImages(@RequestParam("file") MultipartFile file) throws IOException {
         //名称
         String fileName = UUID.randomUUID().toString() + file.getOriginalFilename();
         String fileType = fileName.substring(fileName.lastIndexOf(".") + 1);
@@ -39,14 +39,11 @@ public class LmUplodController {
             //在打成jar正式发布时，得到的地址为:{发布jar包目录}/static/images/upload/
         }
         file.transferTo(new File(fileDir.getAbsolutePath(), fileName));
-        Map<String, String> result = new HashMap<String, String>();
-        result.put("name", file.getOriginalFilename());
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("code", 200);
+        result.put("filename", file.getOriginalFilename());
         result.put("size", String.valueOf(file.getSize()));
-        LmUpload json = new LmUpload();
-        json.setCode(200);
-        json.setFilename(fileName);
-        json.setName("null");
-        return json;
+        return result;
     }
 
 }
