@@ -121,26 +121,8 @@ public class LoginAction {
             QQDTO qqDTO = gson.fromJson(userInfo, QQDTO.class);
             //这里拿用户昵称，作为用户名，openid作为密码（正常情况下，在开发时候用openid作为用户名，再自己定义个密码就可以了）
             try {
-				//创建一个用户数据，并入库
-                LmWebUser NewUser = new LmWebUser();
-                NewUser.setCname(qqDTO.getNickname());
-                NewUser.setLogoip(qqDTO.getFigureurl_qq_2());
-                NewUser.setCreattime(commonUtil.dateToStr(new Date()));
-                NewUser.setLasttime(commonUtil.dateToStr(new Date()));
-                NewUser.setStrat(1);
-                NewUser.setMoney(0.0);
-                NewUser.setSex(qqDTO.getGender().equals("男") ? 1 : 2);
-                NewUser.setOpenid(qqOpenidDTO.getOpenid());
-                lmWebUserService.insert(NewUser);
-                LmUserQqlogin qqlogin = new LmUserQqlogin();
-                qqlogin.setOpenid(qqOpenidDTO.getOpenid());
-                qqlogin.setHead(qqDTO.getFigureurl_qq_1());
-                qqlogin.setStrat(1);
-                qqlogin.setCreattime(commonUtil.dateToStr(new Date()));
-                LmWebUser Apenid = lmWebUserService.findByIsNotApenid(qqOpenidDTO.getOpenid());
-                qqlogin.setUid(Apenid.getUid());
-                lmUserQqloginService.insert(qqlogin);
-                session.setAttribute("UserSession", Apenid);
+		//这里已经成功拿到回调，可以调用qqDTO对象
+               
             } catch (Exception e) {
                 System.err.println(e.getMessage());//打印异常原因                   ==》  一般给用户看
                 System.err.println(e.toString());//打印异常名称以及异常原因  ==》 很少使用
