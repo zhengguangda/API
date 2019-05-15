@@ -22,9 +22,6 @@ public class LmUplodController {
     //单文件上传
     @RequestMapping(value = "/images", method = RequestMethod.POST)
     public Map<String, Object> uploadImages(@RequestParam("file") MultipartFile file) throws IOException {
-        //新版本
-        String fileName = UUID.randomUUID().toString() + file.getOriginalFilename();
-        String fileType = fileName.substring(fileName.lastIndexOf(".") + 1);
         //获取跟目录
         File path = new File(ResourceUtils.getURL("classpath:").getPath());
         if (!path.exists()) {
@@ -38,6 +35,11 @@ public class LmUplodController {
             //在开发测试模式时，得到地址为：{项目跟目录}/target/static/images/upload/
             //在打成jar正式发布时，得到的地址为:{发布jar包目录}/static/images/upload/
         }
+	//获取文件名称
+        String fileName = UUID.randomUUID().toString() + file.getOriginalFilename();
+	//获取文件类型
+        String fileType = fileName.substring(fileName.lastIndexOf(".") + 1);
+	//储存文件
         file.transferTo(new File(fileDir.getAbsolutePath(), fileName));
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("code", 200);
